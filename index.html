@@ -1,41 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Five Nights at Freddy's - Game</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div id="game">
-        <div id="office">
-            <h1>Night Guard Office</h1>
-            <div id="power-bar">Power: <span id="power-level">100</span>%</div>
-            <div class="doors">
-                <div id="left-door" class="door">
-                    <button id="left-light">Light</button>
-                    <button id="left-door-btn">Close Door</button>
-                </div>
-                <div id="right-door" class="door">
-                    <button id="right-light">Light</button>
-                    <button id="right-door-btn">Close Door</button>
-                </div>
-            </div>
-            <button id="check-cameras">Check Cameras</button>
-            <div id="notification"></div>
-        </div>
-        <div id="camera-view" class="hidden">
-            <h2>Camera View</h2>
-            <div id="camera-images"></div>
-            <button id="close-camera">Close Camera</button>
-        </div>
-    </div>
-    
-    <div id="overlay" class="hidden">
-        <h2 id="game-over-text">Game Over!</h2>
-        <button id="restart-btn">Restart</button>
-    </div>
-    
-    <script src="script.js"></script>
-</body>
-</html>
+let power = 100;
+let doorsClosed = { left: false, right: false };
+let isGameActive = true;
+let night = 1;
+let animatronics = [
+    { name: 'Freddy', position: 5, active: false },
+    { name: 'Bonnie', position: 5, active: false }
+];
+
+document.getElementById('left-door-btn').onclick = () => {
+    toggleDoor('left');
+};
+
+document.getElementById('right-door-btn').onclick = () => {
+    toggleDoor('right');
+};
+
+document.getElementById('check-cameras').onclick = () => {
+    if (isGameActive) {
+        checkCameras();
+    }
+};
+
+document.getElementById('close-camera').onclick = () => {
+    document.getElementById('camera-view').style.display = 'none';
+    document.getElementById('office').style.display = 'block';
+};
+
+document.getElementById('restart-btn').onclick = () => {
+    resetGame();
+};
+
+function toggleDoor(side) {
+    doorsClosed[side] = !doorsClosed[side];
+    updatePower();
+}
+
+function updatePower() {
+    if (doorsClosed.left || doorsClosed.right) {
+        power -= 10; // Adjust power consumption as needed
+    }
+    document.getElementById('power-level').innerText = power;
+    checkGameOver();
+}
+
+function checkGameOver() {
+    if (power <= 0) {
+        endGame("You've run out of power!");
+    } else if (animatronics.some(a => a.position <= 0)) {
+        endGame("Animatronic got you!");
+    }
+}
+
+function endGame(message) {
+    isGameActive = false;
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('game-over-text').innerText = message;
+}
+
+function checkCameras() {
+    document.getElementById('camera-view').style.display = 'block';
+    document.getElementById('office').style.display = 'none';
+    showCameras();
+}
+
+function showCameras() {
+    const cameraImages = document.getElementById('camera-images');
+    cameraImages.innerHTML = ''; // Clear previous images
+    for (let i = 1; i <= 5; i++) { // Example for 5 camera views
+        const img = document.createElement('img');
+        img.src = `camera${i}.png`; // Placeholder for camera images
+        img.alt = `Camera ${i}`;
+        cameraImages.appendChild(img);
+    }
+}
+
+// Simulating Animatronic behavior
+function updateAnimatronics() {
+    if (!isGameActive) return;
+
+    animatronics.forEach((animatronic) => {
+        if (Math.random() < 0.1) {
+            animatronic.active = true;
+            animatronic.position -= Math.floor(Math.random() * 2); // Move randomly
+        }
+
+        if (animatronic.position <= 0) {
+            // Animatronic reached the player's door
+            checkGameOver();
+        }
+    });
+}
+
+// Game Loop
+setInterval(() => {
+    if (isGameActive) {
+        updateAnimatronics();
+        power -= 1; // Draining power over time
+        document.getElementById('power-level').innerText = power;
+        checkGameOver();
+    }
+}, 1000); // Update every second
+
+function resetGame() {
+    power = 100;
+    doorsClosed = { left: false, right: false };
+    isGameActive = true;
+    document.getElementById('power-level').innerText = power;
+    document.getElementById('overlay').style.display = 'none';
+    resetAnimatronics();
+}
+
+function resetAnimatronics() {
+    animatronics = [
+        { name: 'Freddy', position: 5, active: false },
+        { name: 'Bonnie', position: 5, active: false }
+    ];
+}
