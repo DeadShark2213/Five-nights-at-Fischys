@@ -3,35 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Night Guard Game</title>
+    <title>Five Nights at Freddy's - Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="game">
         <div id="office">
-            <div id="left-door" class="door">
-                <button id="left-light">Light</button>
-                <button id="left-door-btn">Close Door</button>
+            <h1>Night Guard Office</h1>
+            <div id="power-bar">Power: <span id="power-level">100</span>%</div>
+            <div class="doors">
+                <div id="left-door" class="door">
+                    <button id="left-light">Light</button>
+                    <button id="left-door-btn">Close Door</button>
+                </div>
+                <div id="right-door" class="door">
+                    <button id="right-light">Light</button>
+                    <button id="right-door-btn">Close Door</button>
+                </div>
             </div>
-            <div id="right-door" class="door">
-                <button id="right-light">Light</button>
-                <button id="right-door-btn">Close Door</button>
-            </div>
-            <div id="camera-button">
-                <button id="check-cameras">Check Cameras</button>
-            </div>
-            <div id="power-bar">
-                Power: <span id="power-level">100</span>%
-            </div>
+            <button id="check-cameras">Check Cameras</button>
+            <div id="notification"></div>
         </div>
         <div id="camera-view" class="hidden">
-            <span>Camera View</span>
+            <h2>Camera View</h2>
             <div id="camera-images"></div>
             <button id="close-camera">Close Camera</button>
         </div>
     </div>
-    <div id="notification"></div>
-
+    
+    <div id="overlay" class="hidden">
+        <h2 id="game-over-text">Game Over!</h2>
+        <button id="restart-btn">Restart</button>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
