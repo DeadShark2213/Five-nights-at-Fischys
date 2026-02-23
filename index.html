@@ -1,17 +1,37 @@
-# Five Nights at Fischys
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night Guard Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game">
+        <div id="office">
+            <div id="left-door" class="door">
+                <button id="left-light">Light</button>
+                <button id="left-door-btn">Close Door</button>
+            </div>
+            <div id="right-door" class="door">
+                <button id="right-light">Light</button>
+                <button id="right-door-btn">Close Door</button>
+            </div>
+            <div id="camera-button">
+                <button id="check-cameras">Check Cameras</button>
+            </div>
+            <div id="power-bar">
+                Power: <span id="power-level">100</span>%
+            </div>
+        </div>
+        <div id="camera-view" class="hidden">
+            <span>Camera View</span>
+            <div id="camera-images"></div>
+            <button id="close-camera">Close Camera</button>
+        </div>
+    </div>
+    <div id="notification"></div>
 
-## Game Features
-
-- Office view with left/right mouse look.
-- Power management system.
-- Door controls.
-- Camera system with 8 cameras throughout the pizzeria showing different rooms.
-- Two player-chosen animatronics that move through rooms and jump scare the player.
-- 5 nights of increasing difficulty.
-- Time progression from 12 AM to 6 AM; every 50 seconds in real-time equals 1 hour in-game.
-- Night transitions with confetti and a black screen showing the night number.
-- Battery drains when doors are closed (10% per 15 seconds).
-- Animatronics visible only on cameras until they reach the doors.
-- Mouse movement to the left/right edge of the office view rotates the 3D-like perspective.
-- Mouse movement to the bottom of the screen reveals the camera button.
-- Full pizzeria theming with dark and scary visuals.
+    <script src="script.js"></script>
+</body>
+</html>
